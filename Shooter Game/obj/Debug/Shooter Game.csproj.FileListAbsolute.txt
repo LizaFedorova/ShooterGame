@@ -1,0 +1,10 @@
+C:\Users\fedor\OneDrive\Рабочий стол\Shooter Game\Shooter Game\bin\Debug\Shooter Game.exe.config
+C:\Users\fedor\OneDrive\Рабочий стол\Shooter Game\Shooter Game\bin\Debug\Shooter Game.exe
+C:\Users\fedor\OneDrive\Рабочий стол\Shooter Game\Shooter Game\bin\Debug\Shooter Game.pdb
+C:\Users\fedor\OneDrive\Рабочий стол\Shooter Game\Shooter Game\obj\Debug\Shooter Game.csproj.AssemblyReference.cache
+C:\Users\fedor\OneDrive\Рабочий стол\Shooter Game\Shooter Game\obj\Debug\Shooter_Game.ShooterGame.resources
+C:\Users\fedor\OneDrive\Рабочий стол\Shooter Game\Shooter Game\obj\Debug\Shooter_Game.Properties.Resources.resources
+C:\Users\fedor\OneDrive\Рабочий стол\Shooter Game\Shooter Game\obj\Debug\Shooter Game.csproj.GenerateResource.cache
+C:\Users\fedor\OneDrive\Рабочий стол\Shooter Game\Shooter Game\obj\Debug\Shooter Game.csproj.CoreCompileInputs.cache
+C:\Users\fedor\OneDrive\Рабочий стол\Shooter Game\Shooter Game\obj\Debug\Shooter Game.exe
+C:\Users\fedor\OneDrive\Рабочий стол\Shooter Game\Shooter Game\obj\Debug\Shooter Game.pdb
