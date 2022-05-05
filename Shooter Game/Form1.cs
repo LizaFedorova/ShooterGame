@@ -18,9 +18,6 @@ namespace Shooter_Game
         PictureBox mainPlayer;
         PictureBox[] bullets;
         int bulletsSpeed;
-        public Player player = new Player();
-        public Bitmap imageP;
-        public Graphics g;
 
         public ShooterGame()
         {
@@ -70,33 +67,19 @@ namespace Shooter_Game
                 clouds[i].BackColor = Color.FromArgb(random.Next(50, 125), 255, 200, 200);
                 this.Controls.Add(clouds[i]);
             }
-
-            g = this.CreateGraphics();
-            imageP = new Bitmap(imageList1.Images[0], 72, 125);
-            player.New_player(this);
-            player.Show_player(this, 50, 320);
-
-            //Paint += new PaintEventHandler(OnPaint);
-
-            /*mainPlayer = new PictureBox();
-            mainPlayer.BackColor = Color.Transparent;
-            mainPlayer.SizeMode = PictureBoxSizeMode.StretchImage;
-            mainPlayer.Size = new Size(75, 125);
-            mainPlayer.Location = new Point(50, 320);
-            //mainPlayer.Paint += new PaintEventHandler(this.MainPlayer_Paint);
-            this.Controls.Add(mainPlayer);*/
         }
 
-        /*private void OnPaint(object sender, PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs e)
         {
+            base.OnPaint(e);
+            var g = e.Graphics;
             var playerImage = Properties.Resources.player_stands;
             var x = 50;
             var y = 300;
             var width = 75;
             var height = 125;
-            Graphics g = e.Graphics;
             g.DrawImage(playerImage, x, y, width, height);
-        }*/
+        }
 
         private void MoveLeftTimer_Tick(object sender, EventArgs e)
         {
@@ -123,8 +106,6 @@ namespace Shooter_Game
         private void ShooterGame_KeyDown(object sender, KeyEventArgs e)
         {
             //mainPlayer.Image = Properties.Resources.player_run;
-            imageP = new Bitmap(imageList1.Images[1], 72, 125);
-            player.Show_player(this, 50, 320);
             if (e.KeyCode == Keys.A)
                 MoveLeftTimer.Start();
             if (e.KeyCode == Keys.D)
@@ -138,7 +119,7 @@ namespace Shooter_Game
                 for (var i = 0; i < bullets.Length; i++)
                 {
                     if (bullets[i].Left > 1280)
-                        bullets[i].Location = new Point(mainPlayer.Location.X + 100 + i * 50, mainPlayer.Location.Y + 50);
+                        bullets[i].Location = new Point(mainPlayer.Location.X + 70 + i * 50, mainPlayer.Location.Y + 35);
                 }
             }
         }
@@ -146,7 +127,6 @@ namespace Shooter_Game
         private void ShooterGame_KeyUp(object sender, KeyEventArgs e)
         {
             //mainPlayer.Image = Properties.Resources.player_stands;
-            imageP = new Bitmap(imageList1.Images[0], 72, 125);
             MoveLeftTimer.Stop();
             MoveRightTimer.Stop();
             MoveUpTimer.Stop();
