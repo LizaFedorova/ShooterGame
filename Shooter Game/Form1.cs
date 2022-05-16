@@ -1,11 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace Shooter_Game
 {
@@ -15,7 +9,7 @@ namespace Shooter_Game
         Random random;
         int backgroundSpeed;
         int playerSpeed;
-        PictureBox mainPlayer;
+        Player mainPlayer = new Player();
         PictureBox[] bullets;
         int bulletsSpeed;
 
@@ -47,24 +41,28 @@ namespace Shooter_Game
             backgroundSpeed = 5;
             clouds = new PictureBox[20];
             random = new Random();
-            bullets = new PictureBox[1];
+            /*bullets = new PictureBox[1];
             bulletsSpeed = 80;
             for (var i = 0; i < bullets.Length; i++)
             {
-                bullets[i] = new PictureBox();
-                bullets[i].BorderStyle = BorderStyle.None;
-                bullets[i].Size = new Size(20, 5);
-                bullets[i].BackColor = Color.White;
+                bullets[i] = new PictureBox
+                {
+                    BorderStyle = BorderStyle.None,
+                    Size = new Size(20, 5),
+                    BackColor = Color.White
+                };
                 this.Controls.Add(bullets[i]);
-            }
+            }*/
 
             for (var i = 0; i < clouds.Length; i++)
             {
-                clouds[i] = new PictureBox();
-                clouds[i].BorderStyle = BorderStyle.None;
-                clouds[i].Location = new Point(random.Next(-1000, 1280), random.Next(10, 100));
-                clouds[i].Size = new Size(random.Next(100, 255), random.Next(30, 70));
-                clouds[i].BackColor = Color.FromArgb(random.Next(50, 125), 255, 200, 200);
+                clouds[i] = new PictureBox
+                {
+                    BorderStyle = BorderStyle.None,
+                    Location = new Point(random.Next(-1000, 1280), random.Next(10, 80)),
+                    Size = new Size(random.Next(80, 200), random.Next(30, 70)),
+                    BackColor = Color.FromArgb(random.Next(50, 125), 255, 200, 200)
+                };
                 this.Controls.Add(clouds[i]);
             }
         }
@@ -76,8 +74,8 @@ namespace Shooter_Game
             var playerImage = Properties.Resources.player_stands;
             var x = 50;
             var y = 300;
-            var width = 75;
-            var height = 125;
+            var width = 80;
+            var height = 130;
             g.DrawImage(playerImage, x, y, width, height);
         }
 
@@ -105,7 +103,7 @@ namespace Shooter_Game
 
         private void ShooterGame_KeyDown(object sender, KeyEventArgs e)
         {
-            //mainPlayer.Image = Properties.Resources.player_run;
+            mainPlayer.Image = Properties.Resources.player_run;
             if (e.KeyCode == Keys.A)
                 MoveLeftTimer.Start();
             if (e.KeyCode == Keys.D)
@@ -114,19 +112,19 @@ namespace Shooter_Game
                 MoveUpTimer.Start();
             if (e.KeyCode == Keys.S)
                 MoveDownTimer.Start();
-            if (e.KeyCode == Keys.Space)
+            /*if (e.KeyCode == Keys.Space)
             {
                 for (var i = 0; i < bullets.Length; i++)
                 {
                     if (bullets[i].Left > 1280)
                         bullets[i].Location = new Point(mainPlayer.Location.X + 70 + i * 50, mainPlayer.Location.Y + 35);
                 }
-            }
+            }*/
         }
 
         private void ShooterGame_KeyUp(object sender, KeyEventArgs e)
         {
-            //mainPlayer.Image = Properties.Resources.player_stands;
+            mainPlayer.Image = Properties.Resources.player_stands;
             MoveLeftTimer.Stop();
             MoveRightTimer.Stop();
             MoveUpTimer.Stop();
