@@ -8,13 +8,18 @@ namespace Shooter_Game
         PictureBox[] clouds;
         Random random;
         int backgroundSpeed;
+        Player mainPlayer;
+        //Bullets bullets;
         int playerSpeed;
-        Player mainPlayer = new Player();
+        //PictureBox mainPlayer;
         PictureBox[] bullets;
         int bulletsSpeed;
-
-        public ShooterGame()
+        public ShooterGame() 
         {
+            //bullets = new Bullets(Program.form);
+            mainPlayer = new Player();
+            playerSpeed = mainPlayer.speed;
+            //bulletsSpeed = bullets.speed;
             InitializeComponent();
         }
 
@@ -26,7 +31,6 @@ namespace Shooter_Game
                 if (clouds[i].Left >= 1280)
                     clouds[i].Left = clouds[i].Height;
             }
-
             for (var i = clouds.Length; i < clouds.Length; i++)
             {
                 clouds[i].Left += backgroundSpeed - 10;
@@ -37,11 +41,10 @@ namespace Shooter_Game
 
         private void ShooterGame_Load(object sender, EventArgs e)
         {
-            playerSpeed = 5;
             backgroundSpeed = 5;
             clouds = new PictureBox[20];
             random = new Random();
-            /*bullets = new PictureBox[1];
+            bullets = new PictureBox[1];
             bulletsSpeed = 80;
             for (var i = 0; i < bullets.Length; i++)
             {
@@ -52,8 +55,7 @@ namespace Shooter_Game
                     BackColor = Color.White
                 };
                 this.Controls.Add(bullets[i]);
-            }*/
-
+            }
             for (var i = 0; i < clouds.Length; i++)
             {
                 clouds[i] = new PictureBox
@@ -81,29 +83,29 @@ namespace Shooter_Game
 
         private void MoveLeftTimer_Tick(object sender, EventArgs e)
         {
-            if (mainPlayer.Left > 10)
-                mainPlayer.Left -= playerSpeed;
+            if (mainPlayer.Location.X > 10)
+                mainPlayer.Location.X -= playerSpeed;
         }
 
         private void MoveRightTimer_Tick(object sender, EventArgs e)
         {
-            if (mainPlayer.Left < 1150)
-                mainPlayer.Left += playerSpeed;
+            if (mainPlayer.Location.X < 1150)
+                mainPlayer.Location.X += playerSpeed;
         }
 
         private void MoveUpTimer_Tick(object sender, EventArgs e)
         {
-            mainPlayer.Top -= playerSpeed;
+            mainPlayer.Location.Y -= playerSpeed;
         }
 
         private void MoveDownTimer_Tick(object sender, EventArgs e)
         {
-            mainPlayer.Top += playerSpeed;
+            mainPlayer.Location.Y += playerSpeed;
         }
 
         private void ShooterGame_KeyDown(object sender, KeyEventArgs e)
         {
-            mainPlayer.Image = Properties.Resources.player_run;
+            //mainPlayer.Image = Properties.Resources.player_run;
             if (e.KeyCode == Keys.A)
                 MoveLeftTimer.Start();
             if (e.KeyCode == Keys.D)
@@ -112,19 +114,19 @@ namespace Shooter_Game
                 MoveUpTimer.Start();
             if (e.KeyCode == Keys.S)
                 MoveDownTimer.Start();
-            /*if (e.KeyCode == Keys.Space)
+            if (e.KeyCode == Keys.Space)
             {
                 for (var i = 0; i < bullets.Length; i++)
                 {
                     if (bullets[i].Left > 1280)
                         bullets[i].Location = new Point(mainPlayer.Location.X + 70 + i * 50, mainPlayer.Location.Y + 35);
                 }
-            }*/
+            }
         }
 
         private void ShooterGame_KeyUp(object sender, KeyEventArgs e)
         {
-            mainPlayer.Image = Properties.Resources.player_stands;
+            //mainPlayer.Image = Properties.Resources.player_stands;
             MoveLeftTimer.Stop();
             MoveRightTimer.Stop();
             MoveUpTimer.Stop();
