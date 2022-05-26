@@ -1,31 +1,27 @@
 using System.Drawing;
-using System.Windows.Forms;
-
 namespace Shooter_Game
 {
     public class Player
     {
-        public Point Location;
+        //public Point Location;
         public int Speed;
         public Rectangle Rect;
-        public int width;
-        public int height;
+        public int Width;
+        public int Height;
         public Image Image;
-        public Player()
-        {
-            Location.X = 50;
-            Location.Y = 300;
-            Speed = 5;
-            width = 80;
-            height = 130;
-            Image = Properties.Resources.player_stands;
-            Rect = new Rectangle(Location.X, Location.Y, width, height);
-        }
+        public int x;
+        public int y;
 
-        public Rectangle Rectangle()
+        public Player(int x, int y)
         {
-            return Rect;
+            //Location.X = 50;
+            //Location.Y = 300;
+            Speed = 7;
+            Image = Properties.Resources.player_stands;
+            this.x = x;
+            this.y = y;
+            Width = 80;
+            Height = 130;
         }
     }
-
 }
