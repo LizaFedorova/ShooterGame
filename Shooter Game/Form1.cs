@@ -10,7 +10,6 @@ namespace Shooter_Game
         Random random;
         int backgroundSpeed;
         public Player mainPlayer;
-        int playerSpeed;
         PictureBox[] bullets;
         int bulletsSpeed;
         public Rectangle rectangle;
@@ -19,11 +18,10 @@ namespace Shooter_Game
         {
             //bullets = new Bullets(Program.form);
             //bulletsSpeed = bullets.speed;
-            mainPlayer = new Player();
-            playerSpeed = mainPlayer.Speed;
-            rectangle = mainPlayer.Rect;
+            mainPlayer = new Player(50, 300);
             enemies = new Enemies();
             InitializeComponent();
+            Invalidate();
         }
 
         private void MoveBigTimer_Tick(object sender, EventArgs e)
@@ -68,39 +66,41 @@ namespace Shooter_Game
                     Size = new Size(random.Next(80, 200), random.Next(30, 70)),
                     BackColor = Color.FromArgb(random.Next(50, 125), 255, 200, 200)
                 };
-                //this.Controls.Add(clouds[i]);
+                this.Controls.Add(clouds[i]);
             }
+        }
+
+        private void OnPaint(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.DrawImage(mainPlayer.Image, mainPlayer.x, mainPlayer.y, mainPlayer.Width, mainPlayer.Height);
+
         }
 
         private void MoveLeftTimer_Tick(object sender, EventArgs e)
         {
-            if (mainPlayer.Location.X > 10)
-                mainPlayer.Location.X -= playerSpeed;
+            if (mainPlayer.x > 10)
+                mainPlayer.x -= mainPlayer.Speed;
+            Invalidate();
         }
 
         private void MoveRightTimer_Tick(object sender, EventArgs e)
         {
-            if (mainPlayer.Location.X < 1150)
-                mainPlayer.Location.X += playerSpeed;
+            if (mainPlayer.x < 1150)
+                mainPlayer.x += mainPlayer.Speed;
+            Invalidate();
         }
 
         private void MoveUpTimer_Tick(object sender, EventArgs e)
         {
-            mainPlayer.Location.Y -= playerSpeed;
+            mainPlayer.y -= mainPlayer.Speed;
+            Invalidate();
         }
 
         private void MoveDownTimer_Tick(object sender, EventArgs e)
         {
-            mainPlayer.Location.Y += playerSpeed;
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            var g = e.Graphics;
-            var width = 80;
-            var height = 130;
-            g.DrawImage(mainPlayer.Image, mainPlayer.Location.X, mainPlayer.Location.Y, width, height);
+            mainPlayer.y += mainPlayer.Speed;
+            Invalidate();
         }
 
         private void ShooterGame_KeyDown(object sender, KeyEventArgs e)
@@ -119,7 +119,7 @@ namespace Shooter_Game
                 for (var i = 0; i < bullets.Length; i++)
                 {
                     if (bullets[i].Left > 1280)
-                        bullets[i].Location = new Point(mainPlayer.Location.X + 70 + i * 50, mainPlayer.Location.Y + 35);
+                        bullets[i].Location = new Point(mainPlayer.x + 70 + i * 50, mainPlayer.y + 35);
                 }
             }
         }
@@ -137,6 +137,7 @@ namespace Shooter_Game
         {
             for (var i = 0; i < bullets.Length; i++)
                 bullets[i].Left += bulletsSpeed;
+            Invalidate();
         }
 
         private void GameOver(string str)
@@ -144,7 +145,6 @@ namespace Shooter_Game
             label1.Text = str;
             label1.Location = new Point(464, 518);
             label1.Visible = true;
-
             //MoveEnemiesTimer.Stop();
         }
     }
