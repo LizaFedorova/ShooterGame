@@ -5,21 +5,24 @@ namespace Shooter_Game
 {
     public partial class ShooterGame : Form
     {
+        //Bullets bullets;
         PictureBox[] clouds;
         Random random;
         int backgroundSpeed;
-        Player mainPlayer;
-        //Bullets bullets;
+        public Player mainPlayer;
         int playerSpeed;
-        //PictureBox mainPlayer;
         PictureBox[] bullets;
         int bulletsSpeed;
+        public Rectangle rectangle;
+        Enemies enemies;
         public ShooterGame() 
         {
             //bullets = new Bullets(Program.form);
-            mainPlayer = new Player();
-            playerSpeed = mainPlayer.speed;
             //bulletsSpeed = bullets.speed;
+            mainPlayer = new Player();
+            playerSpeed = mainPlayer.Speed;
+            rectangle = mainPlayer.Rect;
+            enemies = new Enemies();
             InitializeComponent();
         }
 
@@ -65,20 +68,8 @@ namespace Shooter_Game
                     Size = new Size(random.Next(80, 200), random.Next(30, 70)),
                     BackColor = Color.FromArgb(random.Next(50, 125), 255, 200, 200)
                 };
-                this.Controls.Add(clouds[i]);
+                //this.Controls.Add(clouds[i]);
             }
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            var g = e.Graphics;
-            var playerImage = Properties.Resources.player_stands;
-            var x = 50;
-            var y = 300;
-            var width = 80;
-            var height = 130;
-            g.DrawImage(playerImage, x, y, width, height);
         }
 
         private void MoveLeftTimer_Tick(object sender, EventArgs e)
@@ -103,9 +94,18 @@ namespace Shooter_Game
             mainPlayer.Location.Y += playerSpeed;
         }
 
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            var g = e.Graphics;
+            var width = 80;
+            var height = 130;
+            g.DrawImage(mainPlayer.Image, mainPlayer.Location.X, mainPlayer.Location.Y, width, height);
+        }
+
         private void ShooterGame_KeyDown(object sender, KeyEventArgs e)
         {
-            //mainPlayer.Image = Properties.Resources.player_run;
+            mainPlayer.Image = Properties.Resources.player_run;
             if (e.KeyCode == Keys.A)
                 MoveLeftTimer.Start();
             if (e.KeyCode == Keys.D)
@@ -126,7 +126,7 @@ namespace Shooter_Game
 
         private void ShooterGame_KeyUp(object sender, KeyEventArgs e)
         {
-            //mainPlayer.Image = Properties.Resources.player_stands;
+            mainPlayer.Image = Properties.Resources.player_stands;
             MoveLeftTimer.Stop();
             MoveRightTimer.Stop();
             MoveUpTimer.Stop();
@@ -137,6 +137,15 @@ namespace Shooter_Game
         {
             for (var i = 0; i < bullets.Length; i++)
                 bullets[i].Left += bulletsSpeed;
+        }
+
+        private void GameOver(string str)
+        {
+            label1.Text = str;
+            label1.Location = new Point(464, 518);
+            label1.Visible = true;
+
+            //MoveEnemiesTimer.Stop();
         }
     }
 }
