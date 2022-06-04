@@ -5,15 +5,13 @@ namespace Shooter_Game
 {
     public partial class ShooterGame : Form
     {
+        Bullets newBullets;
+        Enemies newEnemies;
         Clouds clouds;
         Random random;
         public Player mainPlayer;
         PictureBox[] enemies;
-        int enemiesSize;
-        int enemiesSpeed;
-        Image enemiesImage;
         PictureBox bullets;
-        int bulletsSpeed;
         int score;
         int level;
 
@@ -21,6 +19,8 @@ namespace Shooter_Game
         {
             mainPlayer = new Player(50, 300);
             clouds = new Clouds();
+            newBullets = new Bullets();
+            newEnemies = new Enemies();
             InitializeComponent();
             Invalidate();
         }
@@ -30,19 +30,15 @@ namespace Shooter_Game
             score = 0;
             level = 1;
             random = new Random();
-
             enemies = new PictureBox[3];
-            enemiesSize = random.Next(60, 80);
-            enemiesSpeed = 3;
-            enemiesImage = Properties.Resources.enemy2;
             for (int i = 0; i < enemies.Length; i++)
             {
                 enemies[i] = new PictureBox
                 {
-                    Size = new Size(enemiesSize, enemiesSize),
+                    Size = new Size(newEnemies.Size, newEnemies.Size),
                     SizeMode = PictureBoxSizeMode.Zoom,
                     BackColor = Color.Transparent,
-                    Image = enemiesImage,
+                    Image = newEnemies.Image,
                     Location = new Point((i + 1) * random.Next(60, 160) + 500, random.Next(400, 470)),
                 };
                 this.Controls.Add(enemies[i]);
@@ -56,27 +52,14 @@ namespace Shooter_Game
             g.DrawImage(mainPlayer.Image, mainPlayer.x, mainPlayer.y, mainPlayer.Width, mainPlayer.Height);
         }
 
-        private void NewBullets()
-        {
-            bullets = new PictureBox();
-            bullets.BackColor = Color.White;
-            bullets.BorderStyle = BorderStyle.None;
-            bullets.Height = 5;
-            bullets.Width = 20;
-            bullets.Location = new Point(mainPlayer.x + 70, mainPlayer.y + 35);
-            bullets.Name = "Bullet";
-            this.Controls.Add(bullets);
-        }
-
         private void FireBullet(object sender, EventArgs e)
         {
-            bulletsSpeed = 80;
             foreach (Control c in this.Controls)
             {
                 if (c is PictureBox && c.Name == "Bullet")
                 {
                     bullets = (PictureBox)c;
-                    bullets.Left += bulletsSpeed;
+                    bullets.Left += newBullets.Speed;
                     if (bullets.Location.Y > 1280)
                         this.Controls.Remove(bullets);
                     Intersect();
@@ -117,7 +100,7 @@ namespace Shooter_Game
 
         private void MoveEnemiesTimer_Tick(object sender, EventArgs e)
         {
-            MoveEnemies(enemies, enemiesSpeed);
+            MoveEnemies(enemies, newEnemies.Speed);
         }
 
         private void ShooterGame_KeyDown(object sender, KeyEventArgs e)
@@ -132,7 +115,7 @@ namespace Shooter_Game
             if (e.KeyCode == Keys.S)
                 MoveDownTimer.Start();
             if (e.KeyCode == Keys.Space)
-                NewBullets();
+                newBullets.NewBullets(this, mainPlayer.x + 70, mainPlayer.y + 35);
         }
 
         private void ShooterGame_KeyUp(object sender, KeyEventArgs e)
@@ -158,7 +141,7 @@ namespace Shooter_Game
                 {
                     int enemiesSize = random.Next(60, 90);
                     enemies[i].Size = new Size(enemiesSize, enemiesSize);
-                    enemies[i].Location = new Point((i + 1) * random.Next(60, 100) + 500, random.Next(400, 500));
+                    enemies[i].Location = new Point((i + 1) * random.Next(0, 200) + 400, random.Next(400, 500));
                 }
             }
         }
@@ -175,8 +158,8 @@ namespace Shooter_Game
                     {
                         level += 1;
                         labelLevel.Text = (level < 10) ? "0" + level.ToString() : level.ToString();
-                        if (enemiesSpeed <= 10)
-                            enemiesSpeed+=4;
+                        if (newEnemies.Speed <= 10)
+                            newEnemies.Speed += 4;
                         if (level == 3)
                         {
                             MoveBulletsTimer.Stop();
@@ -194,9 +177,9 @@ namespace Shooter_Game
             PointF delta = new PointF();
             delta.X = mainPlayer.x - enemies.Location.X;
             delta.Y = mainPlayer.y - enemies.Location.Y;
-            if (Math.Abs(delta.X) <= mainPlayer.Height / 2 + enemiesSize/2)
+            if (Math.Abs(delta.X) <= mainPlayer.Height / 2 + newEnemies.Size/2)
             {
-                if (Math.Abs(delta.Y) <= mainPlayer.Width / 2 + enemiesSize / 2)
+                if (Math.Abs(delta.Y) <= mainPlayer.Width / 2 + newEnemies.Size / 2)
                     return true;
             }
             return false;
